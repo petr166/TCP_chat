@@ -34,9 +34,9 @@ public class ClientController {
             alert.setContentText("Please enter your message before hit \"Send\"");
             alert.show();
         }
-
         else {
             TCPClient.sendButton(userInputField.getText());
+            userInputField.clear();
         }
     }
 
