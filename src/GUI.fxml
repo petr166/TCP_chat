@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="405.0" prefWidth="652.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TextArea layoutX="14.0" layoutY="27.0" prefHeight="297.0" prefWidth="460.0" />
+      <TextField layoutX="14.0" layoutY="338.0" prefHeight="38.0" prefWidth="460.0" promptText="Enter your message(QUIT to exit):" />
+      <Button layoutX="483.0" layoutY="338.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="154.0" text="Send" />
+      <TextArea layoutX="484.0" layoutY="27.0" prefHeight="297.0" prefWidth="154.0" />
+   </children>
+</AnchorPane>
