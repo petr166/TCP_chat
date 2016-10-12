@@ -8,7 +8,7 @@
    <children>
       <TextArea fx:id="chatField" layoutX="14.0" layoutY="27.0" prefHeight="297.0" prefWidth="460.0" />
       <TextField fx:id="userInputField" layoutX="14.0" layoutY="338.0" prefHeight="38.0" prefWidth="460.0" promptText="Enter your message(QUIT to exit):" />
-      <Button fx:id="sendButton" layoutX="483.0" layoutY="338.0" mnemonicParsing="false" onAction="#handleSendButton" prefHeight="38.0" prefWidth="154.0" text="Send" />
+      <Button fx:id="sendButton" defaultButton="true" layoutX="483.0" layoutY="338.0" mnemonicParsing="false" onAction="#handleSendButton" prefHeight="38.0" prefWidth="154.0" text="Send" />
       <TextArea fx:id="activeUsersField" layoutX="484.0" layoutY="27.0" prefHeight="297.0" prefWidth="154.0" />
    </children>
 </AnchorPane>
