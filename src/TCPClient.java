@@ -31,7 +31,7 @@ public class TCPClient {
     }
 
     //MAIN
-    public static void initialize() {
+    public static void initialize(ClientController client) {
 
         try {//print the welcome message
             System.out.println();
@@ -66,7 +66,7 @@ public class TCPClient {
         alive.start();
 
         //initialize and start the listener thread
-        MessageListener messageListener = new MessageListener();
+        MessageListener messageListener = new MessageListener(client);
         messageListener.start();
 
         //system message if you connect successfully :D
@@ -217,10 +217,14 @@ public class TCPClient {
 class MessageListener extends Thread {
     private String response, key;
     private Scanner keyScanner;
+    private ClientController clientController;
+
+    public MessageListener(ClientController clientController) {
+        this.clientController = clientController;
+    }
 
     @Override
     public void run() {
-        ClientController clientController = new ClientController();
         while (true) {
             try {
                 //get the response from the server

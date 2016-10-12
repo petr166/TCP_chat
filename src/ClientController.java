@@ -42,7 +42,6 @@ public class ClientController {
 
 
     public void handleChatField(String message) {
-        System.out.println(message);
         chatField.appendText(message + "\n");
     }
 

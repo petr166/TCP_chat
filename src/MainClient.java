@@ -12,6 +12,7 @@ import java.io.IOException;
 public class MainClient extends Application{
     Stage stage;
     AnchorPane layout;
+    ClientController client;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -23,7 +24,7 @@ public class MainClient extends Application{
             @Override
             public void run() {
                 System.out.println(Thread.currentThread().getName());
-                TCPClient.initialize();
+                TCPClient.initialize(client);
             }
         };
         thread.start();
@@ -36,6 +37,7 @@ public class MainClient extends Application{
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainClient.class.getResource("GUI.fxml"));
             layout = loader.load();
+            client = loader.getController();
 
             // setScene, show
             Scene scene = new Scene(layout, 652, 394);
@@ -45,5 +47,9 @@ public class MainClient extends Application{
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void main(String[] args) {
+        launch(args);
     }
 }
