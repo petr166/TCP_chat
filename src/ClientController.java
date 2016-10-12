@@ -10,13 +10,21 @@ import javafx.scene.control.TextField;
 public class ClientController {
 
     @FXML
-    static TextArea chatField, activeUsersField;
+    TextArea chatField;
+    @FXML
+    TextArea activeUsersField;
+    @FXML
     TextField userInputField;
+    @FXML
     Button sendButton;
 
     // initialize the controller class
     @FXML
     private void initialize() {}
+
+    public ClientController() {
+        chatField = new TextArea();
+    }
 
     @FXML
     public void handleSendButton() {
@@ -32,8 +40,9 @@ public class ClientController {
         }
     }
 
-    @FXML
-    public static void handleChatField(String message) {
+
+    public void handleChatField(String message) {
+        System.out.println(message);
         chatField.appendText(message + "\n");
     }
 

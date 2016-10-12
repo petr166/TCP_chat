@@ -13,16 +13,13 @@ import java.util.Scanner;
 /**
  * Created by Petru on 12-Sep-16.
  */
-public class TCPClient extends Application{
+public class TCPClient {
     //fields
     private static InetAddress serverAddress; //object to store the server InetAddress
     private static int port; //server port
     private static Socket socket; //client socket
     private static String userName; //client userName
     private static Scanner cin = new Scanner(System.in); //scanner object for user input
-
-    private AnchorPane layout;
-    private Stage stage;
 
     //communication objects
     private static Scanner chatInput;
@@ -34,32 +31,7 @@ public class TCPClient extends Application{
     }
 
     //MAIN
-    public static void main(String[] args) {
-        launch(args);
-
-    }
-
-    // method to initialize the root layout
-    public void initRootLayout() {
-        try {
-            // load root layout
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(this.getClass().getResource("GUI.fxml"));
-            layout = loader.load();
-
-            // setScene, show
-            Scene scene = new Scene(layout, 652, 394);
-            stage.setScene(scene);
-            stage.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    //MAIN
-    public void start(Stage primaryStage) {
-        stage = primaryStage;
+    public static void initialize() {
 
         try {//print the welcome message
             System.out.println();
@@ -248,6 +220,7 @@ class MessageListener extends Thread {
 
     @Override
     public void run() {
+        ClientController clientController = new ClientController();
         while (true) {
             try {
                 //get the response from the server
@@ -262,40 +235,40 @@ class MessageListener extends Thread {
                     case "DATA":
                         //print the message
                         System.out.println(response.substring(response.indexOf(" ") + 1));
-                        ClientController.handleChatField(response.substring(response.indexOf(" ") + 1));
+                        clientController.handleChatField(response.substring(response.indexOf(" ") + 1));
                         break;
 
                     case "LIST":
                         //print the message
                         System.out.println(response.substring(response.indexOf(" ") + 1));
-                        ClientController.handleChatField(response.substring(response.indexOf(" ") + 1));
+                        clientController.handleChatField(response.substring(response.indexOf(" ") + 1));
                         break;
 
                     case "J_ERR":
                         System.out.println("\nThe server thinks you're shit..");
-                        ClientController.handleChatField("\nThe server thinks you're shit..");
+                        clientController.handleChatField("\nThe server thinks you're shit..");
 
                         //print the closing messages
                         System.out.println("You left the conversation. See ya!");
-                        ClientController.handleChatField("You left the conversation. See ya!");
+                        clientController.handleChatField("You left the conversation. See ya!");
                         System.out.println("Closing connection...");
-                        ClientController.handleChatField("Closing connection...");
+                        clientController.handleChatField("Closing connection...");
 
                         System.exit(1);
 
                     default:
                         //in case of a server message (for AleXx)
                         System.out.print("\nServer system message: ");
-                        ClientController.handleChatField("\nServer system message: ");
+                        clientController.handleChatField("\nServer system message: ");
                         System.out.println(response + "\n");
-                        ClientController.handleChatField(response + "\n");
+                        clientController.handleChatField(response + "\n");
                 }
 
             } catch (Exception e) { // the server is not responding
                 System.out.println("\nThe server is dead..\n");
-                ClientController.handleChatField("\nThe server is dead..\n");
+                clientController.handleChatField("\nThe server is dead..\n");
                 System.out.println("Closing connection...");
-                ClientController.handleChatField("Closing connection...");
+                clientController.handleChatField("Closing connection...");
 
                 System.exit(1);
             }
