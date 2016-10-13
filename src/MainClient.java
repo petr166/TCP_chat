@@ -63,7 +63,7 @@ public class MainClient extends Application {
             introController.setMainClient(this);
 
             // setScene, show
-            Scene scene = new Scene(layout, 400, 365);
+            Scene scene = new Scene(layout, 400, 350);
             stage.setScene(scene);
             stage.show();
 
