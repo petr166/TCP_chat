@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="41.0" layoutY="165.0" text="Server address:" />
+      <Label layoutX="41.0" layoutY="216.0" text="Server port:" />
+      <TextField layoutX="160.0" layoutY="160.0" />
+      <TextField layoutX="160.0" layoutY="211.0" />
+      <Button layoutX="321.0" layoutY="255.0" mnemonicParsing="false" text="Connect" />
+      <ImageView fitHeight="144.0" fitWidth="200.0" layoutX="100.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" />
+   </children>
+</AnchorPane>
