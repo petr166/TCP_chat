@@ -40,8 +40,9 @@ public class IntroController {
     private void handleConnectButton() {
         if (serverPortField.getText().isEmpty() || serverAddressField.getText().isEmpty() || userNameField.getText().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.initOwner(mainClient.getStage());
             alert.setTitle("Error");
-            alert.setHeaderText("Empty address!");
+            alert.setHeaderText("Empty input field!");
             alert.setContentText("Please enter the server details and user name before hit 'Login'!");
             alert.show();
 
@@ -50,8 +51,9 @@ public class IntroController {
             int serverPort = Integer.parseInt(serverPortField.getText());
             String userName = userNameField.getText();
 
-            TCPClient.connectToServer(serverAddress, serverPort, userName, this);
-            mainClient.initChatScene();
+            boolean connectedSuccessful = TCPClient.connectToServer(serverAddress, serverPort, userName, this);
+
+            if (connectedSuccessful) mainClient.initChatScene();
         }
     }
 

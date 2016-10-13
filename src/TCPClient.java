@@ -72,7 +72,9 @@ public class TCPClient {
 
 
     //method to connect to the server
-    public static void connectToServer(String serverIP, int serverPort, String user, IntroController introController) {
+    public static boolean connectToServer(String serverIP, int serverPort, String user, IntroController introController) {
+        boolean connectedSuccessful = false;
+
         try {
             //get the server address
             /*System.out.print("Please enter the server address: ");
@@ -105,6 +107,7 @@ public class TCPClient {
 
                         case "J_OK": //server accepted the new client
                             System.out.println("You are now connected to the server.");
+                            connectedSuccessful = true;
                             break;
 
                         case "J_ERR": //the username is already used
@@ -115,25 +118,30 @@ public class TCPClient {
                             isUserNameOK = false; //to loop again
                             break;
                     }
+                    return connectedSuccessful;
+
                 } else {
                     introController.showWarningAlert("Wrong input!", "Your username should be max 12 character long and should only contain " +
                             "chars, digits, '-' and '_'");
+                    return connectedSuccessful;
                 }
 
             } while (!isUserNameOK);
 
         } catch (Exception e) { //in case of bad server address
             try {
-                System.out.println("\nEstablishing connection...\n");
-                Thread.sleep(1000);
+                /*System.out.println("\nEstablishing connection...\n");
+                Thread.sleep(1000);*/
 
                 introController.showWarningAlert("Bad address!", "Server address not found.\n" +
                         "Please try again.");
                 System.out.println("Server address not found!");
                 System.out.println("Please try again.\n");
+                return connectedSuccessful;
 
             } catch (Exception f) {
                 f.printStackTrace();
+                return connectedSuccessful;
             } /*finally {
                 connectToServer(); //restart the connection process
             }*/
