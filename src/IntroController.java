@@ -38,11 +38,11 @@ public class IntroController {
 
     @FXML
     private void handleConnectButton() {
-        if (serverPortField.getText().isEmpty() || serverAddressField.getText().isEmpty()) {
+        if (serverPortField.getText().isEmpty() || serverAddressField.getText().isEmpty() || userNameField.getText().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Error");
             alert.setHeaderText("Empty address!");
-            alert.setContentText("Please enter the server details before hit 'Connect'!");
+            alert.setContentText("Please enter the server details and user name before hit 'Login'!");
             alert.show();
 
         } else {
@@ -52,12 +52,12 @@ public class IntroController {
 
             TCPClient.connectToServer(serverAddress, serverPort, userName, this);
             mainClient.initChatScene();
-
         }
     }
 
     public void showWarningAlert(String header, String content) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.initOwner(mainClient.getStage());
         alert.setTitle("Error");
         alert.setHeaderText(header);
         alert.setContentText(content);
