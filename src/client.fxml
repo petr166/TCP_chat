@@ -1,14 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="394.0" prefWidth="652.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ClientController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="375.0" prefWidth="655.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ClientController">
    <children>
-      <TextField fx:id="userInputField" layoutX="14.0" layoutY="338.0" prefHeight="38.0" prefWidth="460.0" promptText="Enter your message(QUIT to exit):" />
-      <TextArea fx:id="chatField" editable="false" layoutX="14.0" layoutY="27.0" prefHeight="297.0" prefWidth="460.0" />
-      <Button fx:id="sendButton" defaultButton="true" layoutX="483.0" layoutY="338.0" mnemonicParsing="false" onAction="#handleSendButton" prefHeight="38.0" prefWidth="154.0" text="Send" />
-      <TextArea fx:id="activeUsersField" layoutX="484.0" layoutY="27.0" prefHeight="297.0" prefWidth="154.0" />
+      <HBox alignment="CENTER" layoutX="5.0" layoutY="14.0" prefHeight="360.0" prefWidth="645.0" spacing="10.0">
+         <children>
+            <VBox prefHeight="340.0" prefWidth="460.0" spacing="10.0">
+               <children>
+                  <TextArea fx:id="chatField" editable="false" prefHeight="300.0" prefWidth="460.0" />
+                  <TextField fx:id="userInputField" prefHeight="40.0" prefWidth="460.0" />
+               </children>
+            </VBox>
+            <VBox prefHeight="340.0" prefWidth="155.0" spacing="10.0">
+               <children>
+                  <TextArea fx:id="activeUsersField" prefHeight="300.0" prefWidth="155.0" />
+                  <Button fx:id="sendButton" mnemonicParsing="false" onAction="#handleSendButton" prefHeight="40.0" prefWidth="155.0" text="Send">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Button>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

@@ -34,7 +34,7 @@ public class MainClient extends Application {
             ClientController clientController = loader.getController();
 
             // setScene, show
-            Scene scene = new Scene(layout, 652, 394);
+            Scene scene = new Scene(layout, 655, 375);
             stage.setScene(scene);
             stage.centerOnScreen();
 

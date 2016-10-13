@@ -25,6 +25,7 @@ public class ClientController {
     // initialize the controller class
     @FXML
     private void initialize() {
+        sendButton.setDefaultButton(true);
     }
 
     @FXML

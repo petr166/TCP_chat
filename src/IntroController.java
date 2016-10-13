@@ -34,6 +34,7 @@ public class IntroController {
         serverAddressField.setText("localhost");
         serverPortField.setText("7777");
         userNameField.setPromptText("user name");
+        connectButton.setDefaultButton(true);
     }
 
     public void setMainClient(MainClient mainClient) {
