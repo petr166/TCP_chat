@@ -10,10 +10,10 @@
       <Label layoutX="41.0" layoutY="165.0" text="Server address:" />
       <Label layoutX="41.0" layoutY="216.0" text="Server port:" />
       <Label layoutX="41.0" layoutY="266.0" text="Username:" />
-      <ImageView fitHeight="144.0" fitWidth="200.0" layoutX="100.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="logo" fitHeight="140.0" fitWidth="200.0" layoutX="100.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true" />
+      <TextField fx:id="userNameField" layoutX="160.0" layoutY="261.0" />
       <TextField fx:id="serverAddressField" layoutX="160.0" layoutY="160.0" />
       <TextField fx:id="serverPortField" layoutX="160.0" layoutY="211.0" />
-      <TextField fx:id="userNameField" layoutX="160.0" layoutY="261.0" />
-      <Button fx:id="connectButton" layoutX="310.0" layoutY="320.0" mnemonicParsing="false" onAction="#handleConnectButton" text="Connect" />
+      <Button fx:id="connectButton" defaultButton="true" layoutX="310.0" layoutY="320.0" mnemonicParsing="false" onAction="#handleConnectButton" text="Connect" />
    </children>
 </AnchorPane>

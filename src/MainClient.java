@@ -1,7 +1,7 @@
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -11,8 +11,7 @@ import java.io.IOException;
  */
 public class MainClient extends Application {
     Stage stage;
-    AnchorPane layout;
-    ClientController client;
+    Pane layout;
 
     public static void main(String[] args) {
         launch(args);
@@ -30,9 +29,9 @@ public class MainClient extends Application {
         try {
             // load root layout
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainClient.class.getResource("GUI.fxml"));
+            loader.setLocation(MainClient.class.getResource("client.fxml"));
             layout = loader.load();
-            client = loader.getController();
+            ClientController clientController = loader.getController();
 
             // setScene, show
             Scene scene = new Scene(layout, 652, 394);
@@ -42,7 +41,7 @@ public class MainClient extends Application {
             Thread thread = new Thread() {
                 @Override
                 public void run() {
-                    TCPClient.initialize(client);
+                    TCPClient.initialize(clientController);
                 }
             };
             thread.start();
