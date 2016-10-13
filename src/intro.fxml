@@ -5,14 +5,15 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="365.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IntroController">
    <children>
       <Label layoutX="41.0" layoutY="165.0" text="Server address:" />
       <Label layoutX="41.0" layoutY="216.0" text="Server port:" />
-      <TextField layoutX="160.0" layoutY="160.0" />
-      <TextField layoutX="160.0" layoutY="211.0" />
-      <Button layoutX="321.0" layoutY="255.0" mnemonicParsing="false" text="Connect" />
+      <Label layoutX="41.0" layoutY="266.0" text="Username:" />
       <ImageView fitHeight="144.0" fitWidth="200.0" layoutX="100.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" />
+      <TextField fx:id="serverAddressField" layoutX="160.0" layoutY="160.0" />
+      <TextField fx:id="serverPortField" layoutX="160.0" layoutY="211.0" />
+      <TextField fx:id="userNameField" layoutX="160.0" layoutY="261.0" />
+      <Button fx:id="connectButton" layoutX="310.0" layoutY="320.0" mnemonicParsing="false" onAction="#handleConnectButton" text="Connect" />
    </children>
 </AnchorPane>

@@ -1,10 +1,3 @@
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
-
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -44,8 +37,8 @@ public class TCPClient {
             System.exit(1);
         }
 
-        //connect to the server
-        connectToServer();
+        /*//connect to the server
+        connectToServer();*/
 
         //initialize and start the ALIVE sender thread
         Thread alive = new Thread() {
@@ -79,17 +72,17 @@ public class TCPClient {
 
 
     //method to connect to the server
-    private static void connectToServer() {
+    public static void connectToServer(String serverIP, int serverPort, String user, IntroController introController) {
         try {
             //get the server address
-            System.out.print("Please enter the server address: ");
+            /*System.out.print("Please enter the server address: ");
             String server = cin.nextLine();
             System.out.print("Please enter the port: ");
-            port = Integer.parseInt(cin.nextLine());
+            port = Integer.parseInt(cin.nextLine());*/
 
             //initialize the server address
-            serverAddress = InetAddress.getByName(server);
-            socket = new Socket(serverAddress, port); //initialize the client socket
+            serverAddress = InetAddress.getByName(serverIP);
+            socket = new Socket(serverAddress, serverPort); //initialize the client socket
 
             //initialize the communication objects
             chatOutput = new PrintWriter(socket.getOutputStream(), true);
@@ -99,7 +92,7 @@ public class TCPClient {
             boolean isUserNameOK;
 
             do { //try until getting valid input
-                isUserNameOK = getUserName();
+                isUserNameOK = getUserName(user);
 
                 if (isUserNameOK) { //userName meets the requirements
 
@@ -115,11 +108,16 @@ public class TCPClient {
                             break;
 
                         case "J_ERR": //the username is already used
+                            introController.showWarningAlert("Username taken!", "This username is already in use.\n" +
+                                    "Try another username.");
                             System.out.println("This username is already in use.");
                             System.out.println("Try another username.\n");
                             isUserNameOK = false; //to loop again
                             break;
                     }
+                } else {
+                    introController.showWarningAlert("Wrong input!", "Your username should be max 12 character long and should only contain " +
+                            "chars, digits, '-' and '_'");
                 }
 
             } while (!isUserNameOK);
@@ -129,14 +127,16 @@ public class TCPClient {
                 System.out.println("\nEstablishing connection...\n");
                 Thread.sleep(1000);
 
+                introController.showWarningAlert("Bad address!", "Server address not found.\n" +
+                        "Please try again.");
                 System.out.println("Server address not found!");
                 System.out.println("Please try again.\n");
 
             } catch (Exception f) {
                 f.printStackTrace();
-            } finally {
+            } /*finally {
                 connectToServer(); //restart the connection process
-            }
+            }*/
         }
     }
 
@@ -180,11 +180,12 @@ public class TCPClient {
 
 
     //method to get the username
-    private static boolean getUserName() {
+    private static boolean getUserName(String user) {
         try {
-            System.out.print("Please enter your user name: ");
+            /*System.out.print("Please enter your user name: ");
             userName = cin.nextLine(); //get username from input
-            System.out.println();
+            System.out.println();*/
+            userName = user;
 
             if (userName.length() < 13 && userName.matches("^[a-zA-Z0-9_-]+$")) { //username matches the standard
                 return true;

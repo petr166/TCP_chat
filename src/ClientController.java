@@ -18,23 +18,23 @@ public class ClientController {
     @FXML
     Button sendButton;
 
-    // initialize the controller class
-    @FXML
-    private void initialize() {}
-
     public ClientController() {
         chatField = new TextArea();
     }
 
+    // initialize the controller class
+    @FXML
+    private void initialize() {
+    }
+
     @FXML
     public void handleSendButton() {
-        if(userInputField.getText().isEmpty()) {
+        if (userInputField.getText().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setHeaderText("No message!");
             alert.setContentText("Please enter your message before hit \"Send\"");
             alert.show();
-        }
-        else {
+        } else {
             TCPClient.sendButton(userInputField.getText());
             userInputField.clear();
         }
