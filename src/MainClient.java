@@ -10,8 +10,8 @@ import java.io.IOException;
  * Created by Petru on 12-Oct-16.
  */
 public class MainClient extends Application {
-    Stage stage;
-    Pane layout;
+    private Stage stage;
+    private Pane layout;
 
     public static void main(String[] args) {
         launch(args);
@@ -37,6 +37,7 @@ public class MainClient extends Application {
             Scene scene = new Scene(layout, 655, 375);
             stage.setScene(scene);
             stage.centerOnScreen();
+            stage.setResizable(false);
 
             Thread thread = new Thread() {
                 @Override
@@ -66,6 +67,8 @@ public class MainClient extends Application {
             Scene scene = new Scene(layout, 400, 350);
             stage.setScene(scene);
             stage.show();
+            stage.centerOnScreen();
+            stage.setResizable(false);
 
         } catch (IOException e) {
             e.printStackTrace();

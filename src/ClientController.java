@@ -10,17 +10,13 @@ import javafx.scene.control.TextField;
 public class ClientController {
 
     @FXML
-    TextArea chatField;
+    private TextArea chatField;
     @FXML
-    TextArea activeUsersField;
+    private TextArea activeUsersField;
     @FXML
-    TextField userInputField;
+    private TextField userInputField;
     @FXML
-    Button sendButton;
-
-    public ClientController() {
-        chatField = new TextArea();
-    }
+    private Button sendButton;
 
     // initialize the controller class
     @FXML
@@ -29,12 +25,14 @@ public class ClientController {
     }
 
     @FXML
-    public void handleSendButton() {
+    private void handleSendButton() {
         if (userInputField.getText().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Error");
             alert.setHeaderText("No message!");
-            alert.setContentText("Please enter your message before hit \"Send\"");
+            alert.setContentText("Please enter your message before you hit \"Send\"");
             alert.show();
+
         } else {
             TCPClient.sendButton(userInputField.getText());
             userInputField.clear();
@@ -45,6 +43,5 @@ public class ClientController {
     public void handleChatField(String message) {
         chatField.appendText(message + "\n");
     }
-
 
 }

@@ -11,25 +11,20 @@ import javafx.scene.image.ImageView;
 public class IntroController {
 
     @FXML
-    TextField serverAddressField;
+    private TextField serverAddressField;
     @FXML
-    TextField serverPortField;
+    private TextField serverPortField;
     @FXML
-    TextField userNameField;
+    private TextField userNameField;
     @FXML
-    Button connectButton;
+    private Button connectButton;
     @FXML
-    ImageView logo;
+    private ImageView logo;
 
-    MainClient mainClient;
-
-    public IntroController() {
-        serverAddressField = new TextField();
-        serverPortField = new TextField();
-    }
+    private MainClient mainClient;
 
     @FXML
-    public void initialize() {
+    private void initialize() {
         logo.setImage(new Image("Le_Chat_logo.png"));
         serverAddressField.setText("localhost");
         serverPortField.setText("7777");
@@ -41,14 +36,21 @@ public class IntroController {
         this.mainClient = mainClient;
     }
 
-    public void handleConnectButton() {
+    @FXML
+    private void handleConnectButton() {
         if (serverPortField.getText().isEmpty() || serverAddressField.getText().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Error");
             alert.setHeaderText("Empty address!");
             alert.setContentText("Please enter the server details before hit 'Connect'!");
             alert.show();
+
         } else {
-            TCPClient.connectToServer(serverAddressField.getText(), Integer.parseInt(serverPortField.getText()), userNameField.getText(), this);
+            String serverAddress = serverAddressField.getText();
+            int serverPort = Integer.parseInt(serverPortField.getText());
+            String userName = userNameField.getText();
+
+            TCPClient.connectToServer(serverAddress, serverPort, userName, this);
             mainClient.initChatScene();
 
         }
