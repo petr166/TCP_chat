@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
-<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="375.0" prefWidth="655.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ClientController">
@@ -11,13 +11,13 @@
          <children>
             <VBox prefHeight="340.0" prefWidth="460.0" spacing="10.0">
                <children>
-                  <TextArea fx:id="chatField" editable="false" prefHeight="300.0" prefWidth="460.0" />
+                  <TextArea fx:id="chatField" editable="false" focusTraversable="false" prefHeight="300.0" prefWidth="460.0" />
                   <TextField fx:id="userInputField" prefHeight="40.0" prefWidth="460.0" />
                </children>
             </VBox>
             <VBox prefHeight="340.0" prefWidth="155.0" spacing="10.0">
                <children>
-                  <TextArea fx:id="activeUsersField" prefHeight="300.0" prefWidth="155.0" />
+                  <TextArea fx:id="activeUsersField" editable="false" focusTraversable="false" prefHeight="300.0" prefWidth="155.0" />
                   <Button fx:id="sendButton" mnemonicParsing="false" onAction="#handleSendButton" prefHeight="40.0" prefWidth="155.0" text="Send">
                      <font>
                         <Font size="16.0" />

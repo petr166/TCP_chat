@@ -1,6 +1,7 @@
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -40,6 +41,9 @@ public class MainClient extends Application {
             // setScene, show
             Scene scene = new Scene(layout, 655, 375);
             stage.setScene(scene);
+
+            stage.setTitle("Le Chat - chattin");
+
             stage.centerOnScreen();
             stage.setResizable(false);
 
@@ -70,6 +74,10 @@ public class MainClient extends Application {
             // setScene, show
             Scene scene = new Scene(layout, 400, 350);
             stage.setScene(scene);
+
+            stage.getIcons().add(new Image("icon.png"));
+            stage.setTitle("Le Chat - Login");
+
             stage.show();
             stage.centerOnScreen();
             stage.setResizable(false);

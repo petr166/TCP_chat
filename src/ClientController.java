@@ -10,11 +10,11 @@ import javafx.scene.control.TextField;
 public class ClientController {
 
     @FXML
+    private TextField userInputField;
+    @FXML
     private TextArea chatField;
     @FXML
     private TextArea activeUsersField;
-    @FXML
-    private TextField userInputField;
     @FXML
     private Button sendButton;
 
