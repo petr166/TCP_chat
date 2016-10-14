@@ -16,7 +16,10 @@ public class TCPServer {
     private static ServerSocket serverSocket;
     private static ArrayList<ClientThread> activeClients = new ArrayList<ClientThread>();
 
-    
+    //get the activeClients list
+    public static ArrayList<ClientThread> getActiveClients() {
+        return activeClients;
+    }
 
 
     //MAIN
