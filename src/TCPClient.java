@@ -13,6 +13,7 @@ public class TCPClient {
     private static Socket socket; //client socket
     private static String userName; //client userName
     private static Scanner cin = new Scanner(System.in); //scanner object for user input
+    private static MessageListener messageListener;
 
     //communication objects
     private static Scanner chatInput;
@@ -25,21 +26,6 @@ public class TCPClient {
 
     //MAIN
     public static void initialize(ClientController client) {
-
-        try {//print the welcome message
-            System.out.println();
-            System.out.printf("client running(%s)...\n\n", InetAddress.getLocalHost());
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("\nUnable to get the local host.");
-
-            System.exit(1);
-        }
-
-        /*//connect to the server
-        connectToServer();*/
-
         //initialize and start the ALIVE sender thread
         Thread alive = new Thread() {
             @Override
@@ -48,6 +34,8 @@ public class TCPClient {
                     try { //sends the ALIVE message every 60sec
                         Thread.sleep(60000);
                         chatOutput.println("ALVE i am " + userName + ".");
+                        System.out.println("-->ALVE message sent.");
+                        System.out.println("------------------------------------------------->");
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -59,14 +47,8 @@ public class TCPClient {
         alive.start();
 
         //initialize and start the listener thread
-        MessageListener messageListener = new MessageListener(client);
+        messageListener = new MessageListener(client);
         messageListener.start();
-
-        //system message if you connect successfully :D
-        System.out.println("Type in your message(\"QUIT\" to exit): \n");
-
-        //communicate with the server
-        sendMessages();
 
     }
 
@@ -75,13 +57,16 @@ public class TCPClient {
     public static boolean connectToServer(String serverIP, int serverPort, String user, IntroController introController) {
         boolean connectedSuccessful = false;
 
-        try {
-            //get the server address
-            /*System.out.print("Please enter the server address: ");
-            String server = cin.nextLine();
-            System.out.print("Please enter the port: ");
-            port = Integer.parseInt(cin.nextLine());*/
+        try {//print the welcome message
+            System.out.printf("client running(%s)...\n\n", InetAddress.getLocalHost());
 
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("-->unable to get the local host.");
+            System.out.println("------------------------------------------------->");
+        }
+
+        try {
             //initialize the server address
             serverAddress = InetAddress.getByName(serverIP);
             socket = new Socket(serverAddress, serverPort); //initialize the client socket
@@ -94,7 +79,7 @@ public class TCPClient {
             boolean isUserNameOK;
 
             do { //try until getting valid input
-                isUserNameOK = getUserName(user);
+                isUserNameOK = checkUserName(user);
 
                 if (isUserNameOK) { //userName meets the requirements
 
@@ -106,16 +91,16 @@ public class TCPClient {
                     switch (response) {
 
                         case "J_OK": //server accepted the new client
-                            System.out.println("You are now connected to the server.");
+                            System.out.println("-->server connection success.");
+                            System.out.println("------------------------------------------------->");
                             connectedSuccessful = true;
                             break;
 
                         case "J_ERR": //the username is already used
                             introController.showWarningAlert("Username taken!", "This username is already in use.\n" +
                                     "Try another username.");
-                            System.out.println("This username is already in use.");
-                            System.out.println("Try another username.\n");
-                            isUserNameOK = false; //to loop again
+                            System.out.println("-->the username is already in use.");
+                            System.out.println("------------------------------------------------->");
                             break;
                     }
                     return connectedSuccessful;
@@ -130,96 +115,44 @@ public class TCPClient {
 
         } catch (Exception e) { //in case of bad server address
             try {
-                /*System.out.println("\nEstablishing connection...\n");
-                Thread.sleep(1000);*/
-
                 introController.showWarningAlert("Bad address!", "Server address not found.\n" +
                         "Please try again.");
-                System.out.println("Server address not found!");
-                System.out.println("Please try again.\n");
+                System.err.println("-->server address not found.");
+                System.out.println("------------------------------------------------->");
                 return connectedSuccessful;
 
             } catch (Exception f) {
-                f.printStackTrace();
+                System.err.println(f);
+                System.out.println("------------------------------------------------->");
                 return connectedSuccessful;
-            } /*finally {
-                connectToServer(); //restart the connection process
-            }*/
+            }
         }
     }
 
 
     public static void exit() {
-        //print the closing messages
-        System.out.println("You left the conversation. See ya!");
-        System.out.println("Closing connection...");
-
         //send the quit message to the server
         chatOutput.println("QUIT i am " + userName + ".");
 
-        /*System.exit(1);*/
+        //print the closing messages
+        System.out.println("-->client exit.");
+        System.out.println("-->closing connection..");
+        System.out.println("------------------------------------------------->");
+
+        System.exit(1);
     }
-
-    //method to send the messages
-    private static void sendMessages() {
-        try {
-            String message, dataMessage;
-
-            do { //loop until user sends "quit" message
-                message = cin.nextLine(); //store the message from the user input
-
-                if (!message.equals("QUIT")) {
-                    //create the DATA message
-                    dataMessage = "DATA " + userName + ": " + message;
-                    //send the message to the server
-                    chatOutput.println(dataMessage);
-                }
-
-            } while (!message.equals("QUIT"));
-
-        } catch (Exception e) {
-            e.printStackTrace();
-
-        } finally {
-            try {
-                //print the closing messages
-                System.out.println("You left the conversation. See ya!");
-                System.out.println("Closing connection...");
-
-                //send the quit message to the server
-                chatOutput.println("QUIT i am " + userName + ".");
-
-                System.exit(1);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
 
     //method to get the username
-    private static boolean getUserName(String user) {
-        try {
-            /*System.out.print("Please enter your user name: ");
-            userName = cin.nextLine(); //get username from input
-            System.out.println();*/
+    private static boolean checkUserName(String user) {
             userName = user;
-
             if (userName.length() < 13 && userName.matches("^[a-zA-Z0-9_-]+$")) { //username matches the standard
                 return true;
 
             } else { //wrong input
-                System.out.println("Wrong input!\n" +
-                        "Your username should be max 12 character long and should only contain " +
-                        "chars, digits, '-' and '_'\n");
+                System.out.println("-->wrong username input.");
+                System.out.println("------------------------------------------------->");
                 return false;
             }
-
-        } catch (Exception e) { //no input
-            System.out.println("Wrong input!\n");
-            return false;
-        }
     }
 
     public static void sendButton(String message) {
@@ -238,6 +171,7 @@ class MessageListener extends Thread {
     private String response, key;
     private Scanner keyScanner;
     private ClientController clientController;
+    private volatile boolean running = true;
 
     public MessageListener(ClientController clientController) {
         this.clientController = clientController;
@@ -245,7 +179,7 @@ class MessageListener extends Thread {
 
     @Override
     public void run() {
-        while (true) {
+        while (running) {
             try {
                 //get the response from the server
                 response = TCPClient.getChatInput().nextLine();
@@ -257,46 +191,49 @@ class MessageListener extends Thread {
                 //handling the message by the key
                 switch (key) {
                     case "DATA":
-                        //print the message
-                        System.out.println(response.substring(response.indexOf(" ") + 1));
                         clientController.handleChatField(response.substring(response.indexOf(" ") + 1));
+                        //print the message
+                        System.out.println("-->data message received.");
+                        System.out.println("--<<" + response.substring(response.indexOf(" ") + 1));
+                        System.out.println("------------------------------------------------->");
                         break;
 
                     case "LIST":
-                        //print the message
-                        System.out.println(response.substring(response.indexOf(" ") + 1));
                         clientController.handleChatField(response.substring(response.indexOf(" ") + 1));
+                        //print the message
+                        System.out.println("-->list message received.");
+                        System.out.println("--<<" + response.substring(response.indexOf(" ") + 1));
+                        System.out.println("------------------------------------------------->");
                         break;
 
                     case "J_ERR":
-                        System.out.println("\nThe server thinks you're shit..");
                         clientController.handleChatField("\nThe server thinks you're shit..");
+                        System.err.println("-->J_ERR message received.");
+                        System.err.println("-->closing connection..");
+                        System.out.println("------------------------------------------------->");
 
-                        //print the closing messages
-                        System.out.println("You left the conversation. See ya!");
-                        clientController.handleChatField("You left the conversation. See ya!");
-                        System.out.println("Closing connection...");
-                        clientController.handleChatField("Closing connection...");
-
-                        System.exit(1);
+                        stopRunning();
 
                     default:
                         //in case of a server message (for AleXx)
-                        System.out.print("\nServer system message: ");
-                        clientController.handleChatField("\nServer system message: ");
-                        System.out.println(response + "\n");
-                        clientController.handleChatField(response + "\n");
+                        clientController.handleChatField("-->Server system message: " + response);
+                        System.out.println("-->#server system message received.");
+                        System.out.println("-->#" + response);
+                        System.out.println("------------------------------------------------->");
                 }
 
             } catch (Exception e) { // the server is not responding
-                System.out.println("\nThe server is dead..\n");
-                clientController.handleChatField("\nThe server is dead..\n");
-                System.out.println("Closing connection...");
-                clientController.handleChatField("Closing connection...");
+                stopRunning();
 
-                System.exit(1);
+                System.out.println("-->server connection lost.");
+                System.out.println("------------------------------------------------->");
             }
         }
+    }
+
+    //method to stop the thread
+    public void stopRunning() {
+        running = false;
     }
 
 }

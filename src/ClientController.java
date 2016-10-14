@@ -49,6 +49,7 @@ public class ClientController {
         chatField.appendText(message + "\n");
     }
 
+
     public void setExit() {
         mainClient.getStage().setOnCloseRequest(e -> {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
