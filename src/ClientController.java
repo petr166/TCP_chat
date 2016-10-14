@@ -1,8 +1,7 @@
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+
+import java.util.Optional;
 
 /**
  * Created by Petru on 12-Oct-16.
@@ -52,7 +51,20 @@ public class ClientController {
 
     public void setExit() {
         mainClient.getStage().setOnCloseRequest(e -> {
-            TCPClient.exit();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation");
+            alert.setHeaderText(null);
+            alert.setContentText("Are you sure?");
+
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if(result.get() == ButtonType.OK) {
+                TCPClient.exit();
+            }
+            else {
+                alert.close();
+            }
+
         });
     }
 
