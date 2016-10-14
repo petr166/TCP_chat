@@ -1,3 +1,5 @@
+import javafx.stage.Stage;
+
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
