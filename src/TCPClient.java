@@ -9,10 +9,8 @@ import java.util.Scanner;
 public class TCPClient {
     //fields
     private static InetAddress serverAddress; //object to store the server InetAddress
-    private static int port; //server port
     private static Socket socket; //client socket
     private static String userName; //client userName
-    private static Scanner cin = new Scanner(System.in); //scanner object for user input
     private static MessageListener messageListener;
 
     //communication objects
@@ -62,7 +60,7 @@ public class TCPClient {
 
         } catch (Exception e) {
             e.printStackTrace();
-            System.err.println("-->unable to get the local host.");
+            System.out.println("-->unable to get the local host.");
             System.out.println("------------------------------------------------->");
         }
 
@@ -84,7 +82,7 @@ public class TCPClient {
                 if (isUserNameOK) { //userName meets the requirements
 
                     //send the JOIN message
-                    chatOutput.printf("JOIN %s, %s:%s\n", userName, serverAddress, port);
+                    chatOutput.printf("JOIN %s, %s:%s\n", userName, serverAddress, serverPort);
                     String response = chatInput.nextLine(); //get the server response
 
                     //handle the server response
@@ -117,12 +115,12 @@ public class TCPClient {
             try {
                 introController.showWarningAlert("Bad address!", "Server address not found.\n" +
                         "Please try again.");
-                System.err.println("-->server address not found.");
+                System.out.println("-->server address not found.");
                 System.out.println("------------------------------------------------->");
                 return connectedSuccessful;
 
             } catch (Exception f) {
-                System.err.println(f);
+                System.out.println(f);
                 System.out.println("------------------------------------------------->");
                 return connectedSuccessful;
             }
@@ -208,8 +206,8 @@ class MessageListener extends Thread {
 
                     case "J_ERR":
                         clientController.handleChatField("\nThe server thinks you're shit..");
-                        System.err.println("-->J_ERR message received.");
-                        System.err.println("-->closing connection..");
+                        System.out.println("-->J_ERR message received.");
+                        System.out.println("-->closing connection..");
                         System.out.println("------------------------------------------------->");
 
                         stopRunning();
