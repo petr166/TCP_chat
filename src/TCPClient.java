@@ -129,13 +129,16 @@ public class TCPClient {
 
 
     public static void exit() {
-        //send the quit message to the server
-        chatOutput.println("QUIT i am " + userName + ".");
 
         //print the closing messages
         System.out.println("-->client exit.");
         System.out.println("-->closing connection..");
         System.out.println("------------------------------------------------->");
+
+        messageListener.stopRunning();
+
+        //send the quit message to the server
+        chatOutput.println("QUIT i am " + userName + ".");
 
         System.exit(1);
     }
@@ -169,6 +172,7 @@ class MessageListener extends Thread {
     private String response, key;
     private Scanner keyScanner;
     private ClientController clientController;
+    private int getMessageFails = 0;
     private volatile boolean running = true;
 
     public MessageListener(ClientController clientController) {
@@ -221,10 +225,16 @@ class MessageListener extends Thread {
                 }
 
             } catch (Exception e) { // the server is not responding
-                stopRunning();
+                getMessageFails ++;
 
-                System.out.println("-->server connection lost.");
-                System.out.println("------------------------------------------------->");
+                if (getMessageFails > 1) {
+                    stopRunning();
+
+                    System.out.println("-->server connection lost.");
+                    System.out.println("------------------------------------------------->");
+
+                    System.exit(1);
+                }
             }
         }
     }

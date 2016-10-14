@@ -63,6 +63,7 @@ public class ClientController {
                 TCPClient.exit();
             }
             else {
+                e.consume();
                 alert.close();
             }
 
