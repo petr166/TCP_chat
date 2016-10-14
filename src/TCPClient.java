@@ -149,6 +149,17 @@ public class TCPClient {
     }
 
 
+    public static void exit() {
+        //print the closing messages
+        System.out.println("You left the conversation. See ya!");
+        System.out.println("Closing connection...");
+
+        //send the quit message to the server
+        chatOutput.println("QUIT i am " + userName + ".");
+
+        /*System.exit(1);*/
+    }
+
     //method to send the messages
     private static void sendMessages() {
         try {

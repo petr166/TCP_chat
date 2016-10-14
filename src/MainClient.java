@@ -37,6 +37,8 @@ public class MainClient extends Application {
             loader.setLocation(MainClient.class.getResource("client.fxml"));
             layout = loader.load();
             ClientController clientController = loader.getController();
+            clientController.setMainClient(this);
+            clientController.setExit();
 
             // setScene, show
             Scene scene = new Scene(layout, 655, 375);

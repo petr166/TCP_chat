@@ -18,10 +18,16 @@ public class ClientController {
     @FXML
     private Button sendButton;
 
+    private MainClient mainClient;
+
     // initialize the controller class
     @FXML
     private void initialize() {
         sendButton.setDefaultButton(true);
+    }
+
+    public void setMainClient(MainClient mainClient) {
+        this.mainClient = mainClient;
     }
 
     @FXML
@@ -43,5 +49,13 @@ public class ClientController {
     public void handleChatField(String message) {
         chatField.appendText(message + "\n");
     }
+
+    public void setExit() {
+        mainClient.getStage().setOnCloseRequest(e -> {
+            TCPClient.exit();
+        });
+    }
+
+
 
 }
