@@ -149,18 +149,20 @@ class ClientThread extends Thread {
                     output.println("J_OK"); //send the J_OK to THIS user
                     this.setLastBeat(Instant.now());
 
-                    String users = name; //string to store active users names
+                    String users = ""; //string to store active users names
 
                     //loop the activeClients list to get the userNames
                     for (ClientThread clientThread : TCPServer.getActiveClients()) {
                         if (!clientThread.getUserName().equals("")) {
-                            users += ", " + clientThread.getUserName();
+                            users += clientThread.getUserName() + " ";
                         }
                     }
 
+                    users += name; //add the new user
+
                     //loop again and send the list with active clients
                     for (ClientThread clientThread : TCPServer.getActiveClients()) {
-                        clientThread.getOutput().printf("LIST %s joined. Active users: %s\n", name, users);
+                        clientThread.getOutput().printf("LIST %s\n", users);
                     }
 
                     //set the userName for this object(thread)
@@ -262,14 +264,13 @@ class ListHandler extends Thread {
             //loop the activeClients list to get the userNames
             for (ClientThread clientThread : TCPServer.getActiveClients()) {
                 if (!clientThread.getUserName().equals("")) {
-                    users += clientThread.getUserName() + ", ";
+                    users += clientThread.getUserName() + " ";
                 }
             }
-            users = users.substring(0, users.lastIndexOf(","));
 
             //send the LIST message
             for (ClientThread clientThread : TCPServer.getActiveClients()) {
-                clientThread.getOutput().printf("LIST %s %s. Active users: %s\n", client.getUserName(), reason, users);
+                clientThread.getOutput().printf("LIST %s\n", users);
             }
         }
 

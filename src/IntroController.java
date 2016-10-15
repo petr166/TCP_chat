@@ -5,6 +5,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.net.InetAddress;
+
 /**
  * Created by Petru on 13-Oct-16.
  */
@@ -26,10 +28,21 @@ public class IntroController {
     @FXML
     private void initialize() {
         logo.setImage(new Image("Le_Chat_logo.png"));
+        serverAddressField.setPromptText("server address");
         serverAddressField.setText("localhost");
+        serverPortField.setPromptText("server port");
         serverPortField.setText("7777");
         userNameField.setPromptText("user name");
         connectButton.setDefaultButton(true);
+
+        try {//print the welcome message
+            System.out.printf("\nclient running(%s)...\n\n", InetAddress.getLocalHost());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("-->unable to get the local host.");
+            System.out.println("------------------------------------------------->");
+        }
     }
 
     public void setMainClient(MainClient mainClient) {
@@ -40,11 +53,10 @@ public class IntroController {
     private void handleConnectButton() {
         if (serverPortField.getText().isEmpty() || serverAddressField.getText().isEmpty() || userNameField.getText().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.initOwner(mainClient.getStage());
             alert.setTitle("Error");
             alert.setHeaderText("Empty input field!");
             alert.setContentText("Please enter the server details and user name before hit 'Login'!");
-            alert.show();
+            alert.showAndWait();
 
         } else {
             String serverAddress = serverAddressField.getText();
@@ -59,10 +71,9 @@ public class IntroController {
 
     public void showWarningAlert(String header, String content) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.initOwner(mainClient.getStage());
         alert.setTitle("Error");
         alert.setHeaderText(header);
         alert.setContentText(content);
-        alert.show();
+        alert.showAndWait();
     }
 }

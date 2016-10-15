@@ -14,12 +14,12 @@ public class MainClient extends Application {
     private Stage stage;
     private Pane layout;
 
-    public Stage getStage() {
-        return stage;
-    }
-
     public static void main(String[] args) {
         launch(args);
+    }
+
+    public Stage getStage() {
+        return stage;
     }
 
     @Override

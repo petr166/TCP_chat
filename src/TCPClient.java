@@ -1,5 +1,3 @@
-import javafx.stage.Stage;
-
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -57,76 +55,68 @@ public class TCPClient {
     public static boolean connectToServer(String serverIP, int serverPort, String user, IntroController introController) {
         boolean connectedSuccessful = false;
 
-        try {//print the welcome message
-            System.out.printf("client running(%s)...\n\n", InetAddress.getLocalHost());
+        //check for correct userName input
+        boolean isUserNameOK;
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("-->unable to get the local host.");
-            System.out.println("------------------------------------------------->");
-        }
+        do { //try until getting valid input
+            isUserNameOK = checkUserName(user);
 
-        try {
-            //initialize the server address
-            serverAddress = InetAddress.getByName(serverIP);
-            socket = new Socket(serverAddress, serverPort); //initialize the client socket
+            if (isUserNameOK) { //userName meets the requirements
 
-            //initialize the communication objects
-            chatOutput = new PrintWriter(socket.getOutputStream(), true);
-            chatInput = new Scanner(socket.getInputStream());
+                try {
+                    //initialize the server address
+                    serverAddress = InetAddress.getByName(serverIP);
+                    socket = new Socket(serverAddress, serverPort); //initialize the client socket
 
-            //check for correct userName input
-            boolean isUserNameOK;
+                    //initialize the communication objects
+                    chatOutput = new PrintWriter(socket.getOutputStream(), true);
+                    chatInput = new Scanner(socket.getInputStream());
 
-            do { //try until getting valid input
-                isUserNameOK = checkUserName(user);
+                } catch (Exception e) { //in case of bad server address
+                    try {
+                        introController.showWarningAlert("Bad address!", "Server address not found.\n" +
+                                "Please try again.");
+                        System.out.println("-->server address not found.");
+                        System.out.println("------------------------------------------------->");
+                        return connectedSuccessful;
 
-                if (isUserNameOK) { //userName meets the requirements
-
-                    //send the JOIN message
-                    chatOutput.printf("JOIN %s, %s:%s\n", userName, serverAddress, serverPort);
-                    String response = chatInput.nextLine(); //get the server response
-
-                    //handle the server response
-                    switch (response) {
-
-                        case "J_OK": //server accepted the new client
-                            System.out.println("-->server connection success.");
-                            System.out.println("------------------------------------------------->");
-                            connectedSuccessful = true;
-                            break;
-
-                        case "J_ERR": //the username is already used
-                            introController.showWarningAlert("Username taken!", "This username is already in use.\n" +
-                                    "Try another username.");
-                            System.out.println("-->the username is already in use.");
-                            System.out.println("------------------------------------------------->");
-                            break;
+                    } catch (Exception f) {
+                        System.out.println(f);
+                        System.out.println("------------------------------------------------->");
+                        return connectedSuccessful;
                     }
-                    return connectedSuccessful;
-
-                } else {
-                    introController.showWarningAlert("Wrong input!", "Your username should be max 12 character long and should only contain " +
-                            "chars, digits, '-' and '_'");
-                    return connectedSuccessful;
                 }
 
-            } while (!isUserNameOK);
+                //send the JOIN message
+                chatOutput.printf("JOIN %s, %s:%s\n", userName, serverAddress, serverPort);
+                String response = chatInput.nextLine(); //get the server response
 
-        } catch (Exception e) { //in case of bad server address
-            try {
-                introController.showWarningAlert("Bad address!", "Server address not found.\n" +
-                        "Please try again.");
-                System.out.println("-->server address not found.");
-                System.out.println("------------------------------------------------->");
+                //handle the server response
+                switch (response) {
+
+                    case "J_OK": //server accepted the new client
+                        System.out.println("-->server connection success.");
+                        System.out.println("------------------------------------------------->");
+                        connectedSuccessful = true;
+                        break;
+
+                    case "J_ERR": //the username is already used
+                        introController.showWarningAlert("Username taken!", "This username is already in use.\n" +
+                                "Try another username.");
+                        System.out.println("-->the username is already in use.");
+                        System.out.println("------------------------------------------------->");
+                        break;
+                }
                 return connectedSuccessful;
 
-            } catch (Exception f) {
-                System.out.println(f);
-                System.out.println("------------------------------------------------->");
+            } else {
+                introController.showWarningAlert("Wrong input!", "Your username should be max 12 character long and should only contain " +
+                        "chars, digits, '-' and '_'");
                 return connectedSuccessful;
             }
-        }
+
+        } while (!isUserNameOK);
+
     }
 
 
@@ -147,15 +137,15 @@ public class TCPClient {
 
     //method to get the username
     private static boolean checkUserName(String user) {
-            userName = user;
-            if (userName.length() < 13 && userName.matches("^[a-zA-Z0-9_-]+$")) { //username matches the standard
-                return true;
+        userName = user;
+        if (userName.length() < 13 && userName.matches("^[a-zA-Z0-9_-]+$")) { //username matches the standard
+            return true;
 
-            } else { //wrong input
-                System.out.println("-->wrong username input.");
-                System.out.println("------------------------------------------------->");
-                return false;
-            }
+        } else { //wrong input
+            System.out.println("-->wrong username input.");
+            System.out.println("------------------------------------------------->");
+            return false;
+        }
     }
 
     public static void sendButton(String message) {
@@ -203,10 +193,11 @@ class MessageListener extends Thread {
                         break;
 
                     case "LIST":
-                        clientController.handleChatField(response.substring(response.indexOf(" ") + 1));
+                        String userList = response.substring(response.indexOf(" ") + 1);
+                        clientController.handleActiveUsersField(userList);
                         //print the message
                         System.out.println("-->list message received.");
-                        System.out.println("--<<" + response.substring(response.indexOf(" ") + 1));
+                        System.out.println("--<<" + userList);
                         System.out.println("------------------------------------------------->");
                         break;
 
@@ -225,9 +216,8 @@ class MessageListener extends Thread {
                         System.out.println("-->#" + response);
                         System.out.println("------------------------------------------------->");
                 }
-
             } catch (Exception e) { // the server is not responding
-                getMessageFails ++;
+                getMessageFails++;
 
                 if (getMessageFails > 1) {
                     stopRunning();

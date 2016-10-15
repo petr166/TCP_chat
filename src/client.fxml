@@ -17,7 +17,10 @@
             </VBox>
             <VBox prefHeight="340.0" prefWidth="155.0" spacing="10.0">
                <children>
-                  <TextArea fx:id="activeUsersField" editable="false" focusTraversable="false" prefHeight="300.0" prefWidth="155.0" />
+                  <TextArea fx:id="activeUsersField" editable="false" focusTraversable="false" prefHeight="300.0" prefWidth="155.0">
+                     <font>
+                        <Font size="17.0" />
+                     </font></TextArea>
                   <Button fx:id="sendButton" mnemonicParsing="false" onAction="#handleSendButton" prefHeight="40.0" prefWidth="155.0" text="Send">
                      <font>
                         <Font size="16.0" />
