@@ -53,6 +53,7 @@ public class TCPClient {
 
     //method to connect to the server
     public static boolean connectToServer(String serverIP, int serverPort, String user, IntroController introController) {
+        //check the connection
         boolean connectedSuccessful = false;
 
         //check for correct userName input
@@ -74,8 +75,10 @@ public class TCPClient {
 
                 } catch (Exception e) { //in case of bad server address
                     try {
+                        //show GUI alert
                         introController.showWarningAlert("Bad address!", "Server address not found.\n" +
                                 "Please try again.");
+
                         System.out.println("-->server address not found.");
                         System.out.println("------------------------------------------------->");
                         return connectedSuccessful;
@@ -101,32 +104,48 @@ public class TCPClient {
                         break;
 
                     case "J_ERR": //the username is already used
+                        //show GUI alert
                         introController.showWarningAlert("Username taken!", "This username is already in use.\n" +
                                 "Try another username.");
+
                         System.out.println("-->the username is already in use.");
                         System.out.println("------------------------------------------------->");
                         break;
                 }
+
                 return connectedSuccessful;
 
             } else {
+                //show GUI alert
                 introController.showWarningAlert("Wrong input!", "Your username should be max 12 character long and should only contain " +
                         "chars, digits, '-' and '_'");
+
                 return connectedSuccessful;
             }
 
         } while (!isUserNameOK);
-
     }
 
 
-    public static void exit() {
+    //handle the send message action
+    public static void sendButton(String message) {
+        String dataMessage;
 
+        //create the DATA message
+        dataMessage = "DATA " + userName + ": " + message;
+        //send the message to the server
+        chatOutput.println(dataMessage);
+    }
+
+
+    //method to handle program exit
+    public static void exit() {
         //print the closing messages
         System.out.println("-->client exit.");
         System.out.println("-->closing connection..");
         System.out.println("------------------------------------------------->");
 
+        //stop the message listener thread
         messageListener.stopRunning();
 
         //send the quit message to the server
@@ -135,9 +154,11 @@ public class TCPClient {
         System.exit(1);
     }
 
+
     //method to get the username
     private static boolean checkUserName(String user) {
-        userName = user;
+        userName = user; //initialize the global userName
+
         if (userName.length() < 13 && userName.matches("^[a-zA-Z0-9_-]+$")) { //username matches the standard
             return true;
 
@@ -147,30 +168,25 @@ public class TCPClient {
             return false;
         }
     }
-
-    public static void sendButton(String message) {
-        String dataMessage;
-
-        //create the DATA message
-        dataMessage = "DATA " + userName + ": " + message;
-        //send the message to the server
-        chatOutput.println(dataMessage);
-    }
 }
 
 
 //defining the thread class to take care of the incoming messages
 class MessageListener extends Thread {
+    //fields
     private String response, key;
     private Scanner keyScanner;
     private ClientController clientController;
     private int getMessageFails = 0;
     private volatile boolean running = true;
 
+    //constructor
     public MessageListener(ClientController clientController) {
         this.clientController = clientController;
     }
 
+
+    //RUN
     @Override
     public void run() {
         while (running) {
@@ -185,7 +201,9 @@ class MessageListener extends Thread {
                 //handling the message by the key
                 switch (key) {
                     case "DATA":
+                        //display message on GUI
                         clientController.handleChatField(response.substring(response.indexOf(" ") + 1));
+
                         //print the message
                         System.out.println("-->data message received.");
                         System.out.println("--<<" + response.substring(response.indexOf(" ") + 1));
@@ -194,7 +212,9 @@ class MessageListener extends Thread {
 
                     case "LIST":
                         String userList = response.substring(response.indexOf(" ") + 1);
+                        //display message on GUI
                         clientController.handleActiveUsersField(userList);
+
                         //print the message
                         System.out.println("-->list message received.");
                         System.out.println("--<<" + userList);
@@ -202,26 +222,33 @@ class MessageListener extends Thread {
                         break;
 
                     case "J_ERR":
+                        //display message on GUI
                         clientController.handleChatField("\nThe server thinks you're shit..");
+                        clientController.handleChatField("-->closing connection..");
+
+                        //print
                         System.out.println("-->J_ERR message received.");
                         System.out.println("-->closing connection..");
                         System.out.println("------------------------------------------------->");
 
                         stopRunning();
 
-                    default:
-                        //in case of a server message (for AleXx)
+                    default: //in case of a server message (for AleXx)
+                        //display message on GUI
                         clientController.handleChatField("-->Server system message: " + response);
+
+                        //print
                         System.out.println("-->#server system message received.");
                         System.out.println("-->#" + response);
                         System.out.println("------------------------------------------------->");
                 }
             } catch (Exception e) { // the server is not responding
-                getMessageFails++;
+                getMessageFails++; //increment the failures
 
-                if (getMessageFails > 1) {
+                if (getMessageFails > 1) { //message retrieve fails repeatedly
                     stopRunning();
 
+                    //print
                     System.out.println("-->server connection lost.");
                     System.out.println("------------------------------------------------->");
 
