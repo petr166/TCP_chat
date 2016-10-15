@@ -8,7 +8,7 @@ import java.util.Scanner;
  * Created by Petru on 12-Oct-16.
  */
 public class ClientController {
-
+    //fields
     @FXML
     private TextField userInputField;
     @FXML
@@ -18,20 +18,26 @@ public class ClientController {
     @FXML
     private Button sendButton;
 
-    private MainClient mainClient;
+    private MainClient mainClient; //reference to the main client
 
-    // initialize the controller class
+
+    // initialize the scene
     @FXML
     private void initialize() {
+        //set up scene objects
         chatField.setText("Welcome to Le Chat!\nPlease type in your message and press 'Send'\n\n");
         userInputField.setPromptText("Please type in your message and press 'Send'");
         sendButton.setDefaultButton(true);
     }
 
+
+    //method to initialize the reference to the main client
     public void setMainClient(MainClient mainClient) {
         this.mainClient = mainClient;
     }
 
+
+    //'Send' button action handler
     @FXML
     private void handleSendButton() {
         if (userInputField.getText().isEmpty()) {
@@ -48,10 +54,13 @@ public class ClientController {
     }
 
 
+    //method to display incoming messages
     public void handleChatField(String message) {
         chatField.appendText(message + "\n");
     }
 
+
+    //method to display the active user list
     public void handleActiveUsersField(String message) {
         activeUsersField.setText("Active users:\n");
 
@@ -62,8 +71,10 @@ public class ClientController {
     }
 
 
+    //method to handle the close request
     public void setExit() {
         mainClient.getStage().setOnCloseRequest(e -> {
+            //show confirm alert
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Confirmation");
             alert.setHeaderText(null);
@@ -71,15 +82,14 @@ public class ClientController {
 
             Optional<ButtonType> result = alert.showAndWait();
 
-            if (result.get() == ButtonType.OK) {
+            if (result.get() == ButtonType.OK) { //user confirmed
                 TCPClient.exit();
-            } else {
+
+            } else { //'cancel' pressed
                 e.consume();
                 alert.close();
             }
-
         });
     }
-
 
 }

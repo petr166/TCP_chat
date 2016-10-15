@@ -11,7 +11,6 @@ import java.net.InetAddress;
  * Created by Petru on 13-Oct-16.
  */
 public class IntroController {
-
     //fields
     @FXML
     private TextField serverAddressField;
