@@ -11,17 +11,22 @@ import java.io.IOException;
  * Created by Petru on 12-Oct-16.
  */
 public class MainClient extends Application {
+    //fields
     private Stage stage;
     private Pane layout;
 
+    //MAIN
     public static void main(String[] args) {
         launch(args);
     }
 
+    //getter
     public Stage getStage() {
         return stage;
     }
 
+
+    //START
     @Override
     public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;
@@ -29,13 +34,15 @@ public class MainClient extends Application {
         initIntroScene();
     }
 
-    // method to initialize the root layout
+    // method to show the chat scene
     public void initChatScene() {
         try {
-            // load root layout
+            // load scene layout
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainClient.class.getResource("client.fxml"));
             layout = loader.load();
+
+            //set up the client controller
             ClientController clientController = loader.getController();
             clientController.setMainClient(this);
             clientController.setExit();
@@ -49,6 +56,7 @@ public class MainClient extends Application {
             stage.centerOnScreen();
             stage.setResizable(false);
 
+            //start the client backend thread
             Thread thread = new Thread() {
                 @Override
                 public void run() {
@@ -62,14 +70,16 @@ public class MainClient extends Application {
         }
     }
 
+
+    // method to show the chat scene
     public void initIntroScene() {
         try {
-            // load root layout
+            // load scene layout
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainClient.class.getResource("intro.fxml"));
             layout = loader.load();
 
-            // method to give the controller access to the main app
+            //set up the intro controller
             IntroController introController = loader.getController();
             introController.setMainClient(this);
 
