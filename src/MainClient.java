@@ -54,7 +54,6 @@ public class MainClient extends Application {
             stage.setTitle("Le Chat - chattin");
 
             stage.centerOnScreen();
-            stage.setResizable(false);
 
             //start the client backend thread
             Thread thread = new Thread() {

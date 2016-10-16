@@ -21,7 +21,7 @@ public class TCPServer {
         return activeClients;
     }
 
-
+~
     //MAIN
     public static void main(String args[]) {
         openPort(PORT); //starts the server at the given port
@@ -104,8 +104,7 @@ class ClientThread extends Thread {
 
         while (running) {
             try {
-                //Accept message from client on
-                //the socket's input stream...
+                //Accept message from client on the socket's input stream...
                 received = input.nextLine();
                 System.out.printf("received from (%s): %s\n", clientSocket.getInetAddress(), received);
 
@@ -191,7 +190,7 @@ class ClientThread extends Thread {
 
             case "QUIT": {
                 System.out.println(this.getUserName() + " left the conversation.");
-                ListHandler.removeThread(this, "left");
+                ListHandler.removeThread(this);
                 break;
             }
 
@@ -249,7 +248,7 @@ class ClientThread extends Thread {
 class ListHandler extends Thread {
 
     //method to erase the user and all related
-    public static void removeThread(ClientThread client, String reason) { //reason: left/dropped
+    public static void removeThread(ClientThread client) { //reason: left/dropped
         try {
             TCPServer.getActiveClients().remove(client);
             client.getClientSocket().close();
@@ -293,7 +292,7 @@ class ListHandler extends Thread {
                                     "(" + clientThread.getUserName() + ") is no longer active, closing connection..");
 
                             System.out.println(clientThread.getUserName() + " dropped due to timeout.");
-                            removeThread(clientThread, "dropped");
+                            removeThread(clientThread);
                             System.out.println("------------------------------------------------->");
                         }
                     }
