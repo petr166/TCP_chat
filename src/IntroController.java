@@ -64,6 +64,7 @@ public class IntroController {
         if (serverPortField.getText().isEmpty() || serverAddressField.getText().isEmpty() || userNameField.getText().isEmpty()) {
             //if not show the alert
             Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.initOwner(mainClient.getStage());
             alert.setTitle("Error");
             alert.setHeaderText("Empty input field!");
             alert.setContentText("Please enter the server details and user name before hit 'Login'!");
@@ -87,6 +88,7 @@ public class IntroController {
     //method to show alert in case of wrong inputs
     public void showWarningAlert(String header, String content) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.initOwner(mainClient.getStage());
         alert.setTitle("Error");
         alert.setHeaderText(header);
         alert.setContentText(content);

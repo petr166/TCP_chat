@@ -42,6 +42,7 @@ public class ClientController {
     private void handleSendButton() {
         if (userInputField.getText().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.initOwner(mainClient.getStage());
             alert.setTitle("Error");
             alert.setHeaderText("No message!");
             alert.setContentText("Please enter your message before you hit \"Send\"");
@@ -76,6 +77,7 @@ public class ClientController {
         mainClient.getStage().setOnCloseRequest(e -> {
             //show confirm alert
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.initOwner(mainClient.getStage());
             alert.setTitle("Confirmation");
             alert.setHeaderText(null);
             alert.setContentText("Are you sure?");
