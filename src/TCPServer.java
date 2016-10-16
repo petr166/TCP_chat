@@ -21,7 +21,7 @@ public class TCPServer {
         return activeClients;
     }
 
-~
+
     //MAIN
     public static void main(String args[]) {
         openPort(PORT); //starts the server at the given port
