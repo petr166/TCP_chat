@@ -180,7 +180,9 @@ class ClientThread extends Thread {
             case "DATA": {
                 if (message.length() > 250) {
                     output.println("J_ERR");
+                    ListHandler.removeThread(this);
                 }
+                
                 else {
                     //loop the activeClients list and send the DATA message
                     for (ClientThread clientThread : TCPServer.getActiveClients()) {
