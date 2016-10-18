@@ -232,6 +232,7 @@ class MessageListener extends Thread {
                         System.out.println("------------------------------------------------->");
 
                         stopRunning();
+                        break;
 
                     default: //in case of a server message (for AleXx)
                         //display message on GUI

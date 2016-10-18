@@ -178,13 +178,18 @@ class ClientThread extends Thread {
             }
 
             case "DATA": {
-                //loop the activeClients list and send the DATA message
-                for (ClientThread clientThread : TCPServer.getActiveClients()) {
-                    if (!clientThread.getUserName().equals("")) {
-                        clientThread.getOutput().println(message);
-                    }
+                if (message.length() > 250) {
+                    output.println("J_ERR");
                 }
-                System.out.println("data sent to all active clients.");
+                else {
+                    //loop the activeClients list and send the DATA message
+                    for (ClientThread clientThread : TCPServer.getActiveClients()) {
+                        if (!clientThread.getUserName().equals("")) {
+                            clientThread.getOutput().println(message);
+                        }
+                    }
+                    System.out.println("data sent to all active clients.");
+                }
                 break;
             }
 
