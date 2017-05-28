@@ -11,7 +11,7 @@
 * Friendly user interface with **JavaFX**
 
 <p align="center">
-  <img src="./preview/preview1.png" alt="Preview" width="252px"/>
+  <img src="./preview/preview1.png" alt="Preview" width="540px"/>
 </p>
 
 
